@@ -18,8 +18,12 @@ export default async function SignIn(
 
   const token = req.cookies.token;
   if(token) {
-    console.log("Already logged in")
-    return res.status(400).json({ error: "Already logged in" });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+    console.log("Already logged in", req.cookies)
+    return res.status(200).json({
+      user: UserView(decoded as any),
+      token
+    });
   }
 
   const { email, password } = req.body;
@@ -37,10 +41,20 @@ export default async function SignIn(
   }
 
   if(user.password === password) {
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string);
+    const token = jwt.sign(
+      { 
+        _id: user._id, 
+        name: user.name, 
+        email: user.email
+      }, 
+      process.env.JWT_SECRET as string
+    );
     res.setHeader("Set-Cookie", `user=${user._id}; path=/, httponly`);
     res.setHeader("Set-Cookie", `token=${token}; path=/`);
     console.log("Logged in", user.email)
     return res.status(200).json({ user: UserView(user), token });
+  }else {
+    console.log("Invalid credentials")
+    return res.status(400).json({ error: "Invalid credentials" });
   }
 }
