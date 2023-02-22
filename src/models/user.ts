@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export interface IUser {
   _id?: string,
@@ -9,7 +9,7 @@ export interface IUser {
   createdAt?: Date
 }
 
-const UserSchema = new mongoose.Schema({
+const UserSchema: Schema = new Schema({
   name: String,
   email: String,
   password: String,
@@ -20,6 +20,6 @@ const UserSchema = new mongoose.Schema({
   }
 })
 
-const User = mongoose.models.User || mongoose.model("User", UserSchema);
+const UserModel = mongoose.models.User || mongoose.model("User", UserSchema);
 
-export default User;
+export default UserModel;
