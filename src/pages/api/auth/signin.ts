@@ -17,7 +17,7 @@ export default async function SignIn(
   }
 
   const token = req.cookies.token;
-  if(token) {
+  if(token && token !== "deleted") {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
     console.log("Already logged in", req.cookies)
     return res.status(200).json({
