@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
 
 import dbConnedction from "../../../services/dbConnection";
-import User from "../../../models/user";
-import UserView from "../../../views/userView";
 
 dbConnedction();
 

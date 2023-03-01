@@ -10,9 +10,22 @@ export interface IUser {
 }
 
 const UserSchema: Schema = new Schema({
-  name: String,
-  email: String,
-  password: String,
+  name: {
+    type: String,
+    required: true,
+  },
+
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
+  password: {
+    type: String,
+    required: true,
+  },
+
   avatar: String,
   createdAt: {
     type: Date,
